@@ -92,6 +92,7 @@ namespace MultiplayerNom
                 this.OnJoin(u);
                 return true;
             }
+            this.CheckLastLeave();
             u.Send("joinDenied");
             return false;
         }
@@ -112,11 +113,15 @@ namespace MultiplayerNom
             {
                 this._users.Remove(handle);
                 this.OnLeave(u);
+                this.CheckLastLeave();
+            }
+        }
 
-                if (this.UserCount == 0 && this.OnLastUserLeave())
-                {
-                    this.Close();
-                }
+        private void CheckLastLeave()
+        {
+            if (this.UserCount == 0 && this.OnLastUserLeave())
+            {
+                this.Close();
             }
         }
 
