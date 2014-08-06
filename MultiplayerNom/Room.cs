@@ -77,8 +77,8 @@ namespace MultiplayerNom
             {
                 user.Disconnect();
             }
-            this.OnDestroy();
             this._server.Remove(this.RoomId);
+            this.OnDestroy();
         }
 
         bool IRoomInternal.AddUser(UserHandle handle)

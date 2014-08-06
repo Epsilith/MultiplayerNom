@@ -48,6 +48,11 @@ namespace MultiplayerNom
         {
             get { return this.Get<TLobby>(LobbyRoomName); }
         }
+        
+        ILobbyBase IServer.Lobby
+        {
+            get { return this.Lobby; }
+        }
 
         /// <summary>
         ///     Gets the rooms in this server.

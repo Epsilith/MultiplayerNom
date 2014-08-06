@@ -6,6 +6,14 @@
     public interface IServer
     {
         /// <summary>
+        ///     Gets the lobby room.
+        /// </summary>
+        /// <value>
+        ///     The lobby room.
+        /// </value>
+        ILobbyBase Lobby { get; }
+
+        /// <summary>
         ///     Gets the rooms in this server.
         /// </summary>
         /// <value>
@@ -30,11 +38,11 @@
         T Get<T>(string roomId) where T : class, IRoom;
 
         /// <summary>
-        ///     Gets the room with the specified room identifier.
+        ///     Trys to get the room with the specified room identifier. Returns null if the room was not found.
         /// </summary>
         /// <typeparam name="T">The type of the room.</typeparam>
         /// <param name="roomId">The room identifier.</param>
-        /// <returns>The room.</returns>
+        /// <returns>The room or <c>null</c> if not found.</returns>
         T TryGet<T>(string roomId) where T : class, IRoom;
 
         /// <summary>
