@@ -2,8 +2,17 @@
 
 namespace MultiplayerNom
 {
+    /// <summary>
+    ///     Provides a default lobby implementation. This class can not be inheirted.
+    /// </summary>
+    /// <typeparam name="TRoom">The type of the room.</typeparam>
     public sealed class Lobby<TRoom> : LobbyBase<User> where TRoom : class, IRoom, new()
     {
+        /// <summary>
+        ///     Called when a message is received.
+        /// </summary>
+        /// <param name="user">The user sending the message.</param>
+        /// <param name="message">The received message.</param>
         protected override void OnMessage(User user, Message message)
         {
             if (message.Type == "join")
