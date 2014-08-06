@@ -6,7 +6,7 @@ using ByteNom;
 
 namespace MultiplayerNom
 {
-    public class MultiplayerServer<TLobby> : Server, IServer where TLobby : class, IRoom, new()
+    public class MultiplayerServer<TLobby> : Server, IServerInternal where TLobby : class, ILobbyBase, new()
     {
         private const string LobbyRoomName = "Lobby";
         private readonly Dictionary<string, IRoomInternal> _rooms = new Dictionary<string, IRoomInternal>();
@@ -38,12 +38,19 @@ namespace MultiplayerNom
 
         public T AddRoom<T>(string roomId) where T : class, IRoom, new()
         {
-            return (T)this.AddRoomInternal<T>(roomId);
+            return (T)this.EnableRoom<T>(roomId);
         }
 
         public bool Contains(string roomId)
         {
             return this._rooms.ContainsKey(roomId);
+        }
+
+        bool IServerInternal.Remove(string roomId)
+        {
+            if (roomId == LobbyRoomName)
+                throw new InvalidOperationException("The lobby room may not be closed!");
+            return this._rooms.Remove(roomId);
         }
 
         public T Get<T>(string roomId) where T : class, IRoom
@@ -58,17 +65,10 @@ namespace MultiplayerNom
 
         private void Init()
         {
-            this._lobbyRoomInternal = this.AddRoomInternal<TLobby>(LobbyRoomName);
+            this._lobbyRoomInternal = this.EnableRoom<TLobby>(LobbyRoomName);
 
             this.ConnectionReceived +=
                 (sender, connection) => { this._userManager.RegisterUser(connection, this._lobbyRoomInternal); };
-        }
-
-        internal IRoomInternal AddRoomInternal<T>(string roomId) where T : class, IRoom, new()
-        {
-            IRoomInternal room = this.EnableRoom<T>(roomId);
-            this._rooms.Add(roomId, room);
-            return room;
         }
 
         private IRoomInternal EnableRoom<T>(string roomId) where T : class, IRoom, new()
@@ -78,6 +78,7 @@ namespace MultiplayerNom
             if (returnValue == null)
                 throw new ArgumentException("The given type must inherit Room!");
 
+            this._rooms.Add(roomId, returnValue);
             returnValue.Activate(this, roomId);
             return returnValue;
         }

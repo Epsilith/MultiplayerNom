@@ -4,33 +4,46 @@ using ByteNom;
 
 namespace MultiplayerNom
 {
-    public abstract class Room<TUser> : IRoomInternal where TUser : BaseUser, new()
+    public abstract class Room<TUser> : IRoomInternal where TUser : User, new()
     {
         private readonly Dictionary<UserHandle, TUser> _users = new Dictionary<UserHandle, TUser>();
+        private IServerInternal _server;
+
+        public bool Closed { get; private set; }
 
         protected TUser[] Users
         {
             get { return this._users.Values.ToArray(); }
         }
 
-        public IServer Server { get; private set; }
+        public IServer Server {
+            get { return _server; }
+        }
+
         public string RoomId { get; private set; }
 
-        protected int PlayerCount
+        protected int UserCount
         {
             get { return this._users.Count; }
         }
 
-        void IRoomInternal.Activate(IServer server, string roomId)
+        void IRoomInternal.Activate(IServerInternal server, string roomId)
         {
-            this.Server = server;
+            this._server = server;
             this.RoomId = roomId;
             this.OnCreate();
         }
 
         void IRoomInternal.Disactivate()
         {
+            this.Closed = true;
+            // Kick everyone out of the room!
+            foreach (var user in this.Users)
+            {
+                user.Disconnect();
+            }
             this.OnDestroy();
+            this._server.Remove(this.RoomId);
         }
 
         bool IRoomInternal.AddUser(UserHandle handle)
@@ -38,12 +51,13 @@ namespace MultiplayerNom
             var u = new TUser();
             u.Activate(handle);
 
-            if (this.AllowUserJoin(u))
+            if (!this.Closed && this.AllowUserJoin(u))
             {
                 this._users.Add(handle, u);
                 this.OnJoin(u);
                 return true;
             }
+            u.Send("joinDenied");
             return false;
         }
 
@@ -63,6 +77,11 @@ namespace MultiplayerNom
             {
                 this._users.Remove(handle);
                 this.OnLeave(u);
+
+                if (this.UserCount == 0 && this.OnLastUserLeave())
+                {
+                    this.Close();
+                }
             }
         }
 
@@ -91,6 +110,11 @@ namespace MultiplayerNom
         {
         }
 
+        protected virtual bool OnLastUserLeave()
+        {
+            return true;
+        }
+
         protected void Broadcast(string type, params object[] args)
         {
             this.Broadcast(new Message(type, args));
@@ -102,6 +126,11 @@ namespace MultiplayerNom
             {
                 user.Send(message);
             }
+        }
+
+        protected void Close()
+        {
+            ((IRoomInternal)this).Disactivate();
         }
     }
 }

@@ -31,12 +31,11 @@ namespace MultiplayerNom.Demo
             {
                 Console.WriteLine("{0} joined the room.", message.GetString(0));
             }
-            if (message.Type == "leave")
+            else if (message.Type == "leave")
             {
                 Console.WriteLine("{0} left the room.", message.GetString(0));
             }
-
-            if (message.Type == "name")
+            else if (message.Type == "name")
             {
                 Console.WriteLine("Name was set to {0}.", message.GetString(0));
             }

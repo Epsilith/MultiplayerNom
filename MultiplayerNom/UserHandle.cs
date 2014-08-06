@@ -40,9 +40,8 @@ namespace MultiplayerNom
                 IRoomInternal oldRoom = this._room;
                 this._room = newRoom;
                 if (oldRoom != null)
-                {
                     oldRoom.RemoveUser(this);
-                }
+
                 return true;
             }
             return false;

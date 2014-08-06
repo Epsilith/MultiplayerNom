@@ -4,7 +4,7 @@ namespace MultiplayerNom
 {
     internal interface IRoomInternal : IRoom
     {
-        void Activate(IServer server, string roomId);
+        void Activate(IServerInternal server, string roomId);
         void Disactivate();
         bool AddUser(UserHandle handle);
         void RemoveUser(UserHandle handle);

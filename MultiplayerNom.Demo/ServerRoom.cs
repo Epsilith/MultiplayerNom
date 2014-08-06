@@ -2,12 +2,12 @@
 
 namespace MultiplayerNom.Demo
 {
-    internal class MyUser : BaseUser
+    public class MyUser : User
     {
         public string Name { get; set; }
     }
 
-    internal class ServerRoom : Room<MyUser>
+    public class ServerRoom : Room<MyUser>
     {
         protected override void OnJoin(MyUser user)
         {

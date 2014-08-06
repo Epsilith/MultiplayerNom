@@ -2,7 +2,7 @@
 
 namespace MultiplayerNom
 {
-    public class BaseUser
+    public class User
     {
         private UserHandle _handle;
 
