@@ -17,7 +17,7 @@ namespace MultiplayerNom
             this._handle = handle;
         }
 
-        public bool MoveToRoom(IRoom room) 
+        public bool MoveToRoom(IRoom room)
         {
             return this._handle.MoveToRoom((IRoomInternal)room);
         }

@@ -13,8 +13,8 @@ namespace MultiplayerNom
                     var roomId = message[0] as string;
 
                     // Get or create a room with the given id
-                    var room = this.Server.Contains(roomId) 
-                        ? this.Server.Get<IRoom>(roomId) 
+                    IRoom room = this.Server.Contains(roomId)
+                        ? this.Server.Get<IRoom>(roomId)
                         : this.Server.AddRoom<TRoom>(roomId);
 
                     user.MoveToRoom(room);

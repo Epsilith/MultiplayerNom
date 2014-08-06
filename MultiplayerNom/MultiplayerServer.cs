@@ -8,6 +8,7 @@ namespace MultiplayerNom
 {
     public class MultiplayerServer<TLobby> : Server, IServer where TLobby : class, IRoom, new()
     {
+        private const string LobbyRoomName = "Lobby";
         private readonly Dictionary<string, IRoomInternal> _rooms = new Dictionary<string, IRoomInternal>();
         private readonly UserManager _userManager = new UserManager();
         private IRoomInternal _lobbyRoomInternal;
@@ -24,36 +25,20 @@ namespace MultiplayerNom
             this.Init();
         }
 
-        private void Init()
-        {
-            this._lobbyRoomInternal = this.AddRoomInternal<TLobby>("Lobby");
-
-            this.ConnectionReceived += (sender, connection) =>
-            {
-                this._userManager.RegisterUser(connection, this, this._lobbyRoomInternal);
-            };
-        }
-
         public TLobby Lobby
         {
-            get { return this.Get<TLobby>("Lobby"); }
+            get { return this.Get<TLobby>(LobbyRoomName); }
         }
 
 
-        public string[] Rooms {
+        public string[] Rooms
+        {
             get { return this._rooms.Keys.ToArray(); }
         }
 
         public T AddRoom<T>(string roomId) where T : class, IRoom, new()
         {
             return (T)this.AddRoomInternal<T>(roomId);
-        }
-
-        internal IRoomInternal AddRoomInternal<T>(string roomId) where T : class, IRoom, new()
-        {
-            IRoomInternal room = this.EnableRoom<T>(roomId);
-            this._rooms.Add(roomId, room);
-            return room;
         }
 
         public bool Contains(string roomId)
@@ -69,6 +54,21 @@ namespace MultiplayerNom
         public T TryGet<T>(string roomId) where T : class, IRoom
         {
             return this._rooms[roomId] as T;
+        }
+
+        private void Init()
+        {
+            this._lobbyRoomInternal = this.AddRoomInternal<TLobby>(LobbyRoomName);
+
+            this.ConnectionReceived +=
+                (sender, connection) => { this._userManager.RegisterUser(connection, this._lobbyRoomInternal); };
+        }
+
+        internal IRoomInternal AddRoomInternal<T>(string roomId) where T : class, IRoom, new()
+        {
+            IRoomInternal room = this.EnableRoom<T>(roomId);
+            this._rooms.Add(roomId, room);
+            return room;
         }
 
         private IRoomInternal EnableRoom<T>(string roomId) where T : class, IRoom, new()

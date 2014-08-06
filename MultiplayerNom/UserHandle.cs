@@ -5,15 +5,10 @@ namespace MultiplayerNom
 {
     internal class UserHandle
     {
-        private readonly IServer _server;
         private IRoomInternal _room;
 
-        public Connection Connection { get; private set; }
-        public int UserId { get; private set; }
-
-        public UserHandle(Connection connection, IServer server, IRoomInternal room, int userId)
+        public UserHandle(Connection connection, IRoomInternal room, int userId)
         {
-            this._server = server;
             this.UserId = userId;
             this.Connection = connection;
             if (!this.MoveToRoom(room))
@@ -31,6 +26,9 @@ namespace MultiplayerNom
                 this._room.RemoveUser(this);
             };
         }
+
+        public Connection Connection { get; private set; }
+        public int UserId { get; private set; }
 
         public bool MoveToRoom(IRoomInternal newRoom)
         {
