@@ -1,4 +1,5 @@
-﻿using ByteNom;
+﻿using System.Net;
+using ByteNom;
 
 namespace MultiplayerNom
 {
@@ -20,6 +21,16 @@ namespace MultiplayerNom
             get { return this._handle.UserId; }
         }
 
+        /// <summary>
+        /// Gets the remote end point of this user.
+        /// </summary>
+        /// <value>
+        /// The remote end point.
+        /// </value>
+        public EndPoint EndPoint
+        {
+            get { return this._handle.Connection.EndPoint; }
+        }
 
         internal void Activate(UserHandle handle)
         {

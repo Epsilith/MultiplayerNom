@@ -26,7 +26,11 @@ namespace MultiplayerNom
                         ? this.Server.Get<IRoom>(roomId)
                         : this.Server.AddRoom<TRoom>(roomId);
 
-                    user.MoveToRoom(room);
+                    if (!user.MoveToRoom(room))
+                    {
+                        // User was rejected, disconnect it!
+                        user.Disconnect();
+                    }
                 }
             }
         }
