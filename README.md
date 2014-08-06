@@ -93,7 +93,7 @@ Each `MultiplayerServer<TLobby>` can contain many rooms and one lobby room where
 ```csharp
 new MultiplayerServer<Lobby<MyRoom>>(port);
 ```
-In this example. we are creating a new `MultiplayerServer<TLobby>` with a lobby type of `Lobby<MyRoom>`. `Lobby<TRoom>` is a very basic Lobby room which only accepts a "join" message.  
+In this example. we are creating a new `MultiplayerServer<TLobby>` with a lobby type of `Lobby<MyRoom>`. `Lobby<TRoom>` is a very basic lobby room which only accepts a "join" message.  
 ```csharp
 new Message("join", roomId);
 ```
@@ -106,7 +106,7 @@ To create your own lobby rooms (to allow listing all available rooms, for exampl
 As you've already seen in the examples above, rooms provide a clean way to work with multiple connections. All rooms are created, initalized and managed by a `MultiplayerServer<>` object. 
 **Note:** You can have different types of rooms in the same server.  
 
-Each room is associated with a unique RoomId and has it's own list of users.  
+Each room is associated with a unique `RoomId` and has it's own list of users.  
 
 ### Room creation
 Lobby rooms are created on server creation. All other rooms will be created once a user tries to join them or by using the `MultiplayerServer.AddRoom<TRoom>(roomId)` method.  
@@ -118,7 +118,7 @@ Once a room is created:
 - `OnCreate` is called.
 
 ### Room destruction
-Rooms can be closed by calling the `Close()` method in the room. Rooms automatically close once the lastest user leaves them.  
+Rooms can be closed by calling the `Close()` method in the room. Rooms automatically close once the last user leaves them.  
 This behaviour can be altered by overriding `OnLastUserLeave()` method:  
 ```csharp
 protected override bool OnLastUserLeave()
@@ -155,12 +155,12 @@ When a player leaves the room:
 	- `Close()` is called if the result of `OnLastUserLeave` was `true`.
 
 ### Messages
-Room allows you to send a message to all users using the Broadcast method.  
-Whenever a message is received, the OnMessage method is called.  
+Room allows you to send a message to all users using the `Broadcast` method.  
+Whenever a message is received, the `OnMessage` method is called.  
 **Note:** the user must be inside the room for `OnMessage` to be called for that user.  
 
 ## Users
-Once a player leaves a room, all variables associated with it (except UserId) are lost. In other words, a new user object is created every time a user joins a room.  
+Once a player leaves a room, all variables associated with it (except `UserId`) are lost. In other words, a new user object is created every time a user joins a room.  
 
 Users have the following members by default:  
 - **Id:** The identifier unique to this user on the server.
