@@ -2,7 +2,7 @@
 
 namespace MultiplayerNom
 {
-    public sealed class Lobby<TRoom> : Room<User>, ILobbyBase where TRoom : class, IRoom, new()
+    public sealed class Lobby<TRoom> : LobbyBase<User> where TRoom : class, IRoom, new()
     {
         protected override void OnMessage(User user, Message message)
         {

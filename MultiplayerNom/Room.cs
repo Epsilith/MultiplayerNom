@@ -16,8 +16,9 @@ namespace MultiplayerNom
             get { return this._users.Values.ToArray(); }
         }
 
-        public IServer Server {
-            get { return _server; }
+        public IServer Server
+        {
+            get { return this._server; }
         }
 
         public string RoomId { get; private set; }
@@ -38,7 +39,7 @@ namespace MultiplayerNom
         {
             this.Closed = true;
             // Kick everyone out of the room!
-            foreach (var user in this.Users)
+            foreach (TUser user in this.Users)
             {
                 user.Disconnect();
             }
