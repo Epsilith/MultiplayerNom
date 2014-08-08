@@ -6,7 +6,7 @@ namespace MultiplayerNom
     {
         private int _userIdCounter;
 
-        public UserHandle RegisterUser(TcpConnection connection, IRoomInternal room)
+        public UserHandle RegisterUser(Connection connection, IRoomInternal room)
         {
             return new UserHandle(connection, room, this._userIdCounter++);
         }

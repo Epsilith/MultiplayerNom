@@ -10,7 +10,7 @@ namespace MultiplayerNom
     ///     Represents a multiplayer server that hosts multiple rooms and a lobby.
     /// </summary>
     /// <typeparam name="TLobby">The type of the lobby.</typeparam>
-    public class MultiplayerServer<TLobby> : Server, IMultiplayerServerInternal where TLobby : class, ILobbyBase, new()
+    public class MultiplayerServer<TLobby> : IMultiplayerServerInternal where TLobby : class, ILobbyBase, new()
     {
         private const string LobbyRoomName = "Lobby";
         private readonly Dictionary<string, IRoomInternal> _rooms = new Dictionary<string, IRoomInternal>();
@@ -20,22 +20,13 @@ namespace MultiplayerNom
         /// <summary>
         ///     Initializes a new instance of the <see cref="MultiplayerServer{TLobby}" /> class.
         /// </summary>
-        /// <param name="port">The port to connect to.</param>
-        public MultiplayerServer(int port)
-            : base(port)
+        /// <param name="server">The server to listen on.</param>
+        public MultiplayerServer(IServer server)
         {
-            this.Init();
-        }
+            this._lobbyRoomInternal = this.EnableRoom<TLobby>(LobbyRoomName);
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="MultiplayerServer{TLobby}" /> class.
-        /// </summary>
-        /// <param name="ipAddress">The ip address.</param>
-        /// <param name="port">The port.</param>
-        public MultiplayerServer(IPAddress ipAddress, int port)
-            : base(ipAddress, port)
-        {
-            this.Init();
+            server.ConnectionReceived +=
+                (sender, connection) => { this._userManager.RegisterUser(connection, this._lobbyRoomInternal); };
         }
 
         /// <summary>
@@ -122,15 +113,7 @@ namespace MultiplayerNom
         {
             return this._rooms[roomId] as T;
         }
-
-        private void Init()
-        {
-            this._lobbyRoomInternal = this.EnableRoom<TLobby>(LobbyRoomName);
-
-            this.ConnectionReceived +=
-                (sender, connection) => { this._userManager.RegisterUser(connection, this._lobbyRoomInternal); };
-        }
-
+        
         private IRoomInternal EnableRoom<T>(string roomId) where T : class, IRoom, new()
         {
             var room = new T();
@@ -150,10 +133,12 @@ namespace MultiplayerNom
         ///     <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only
         ///     unmanaged resources.
         /// </param>
-        protected override void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             this._lobbyRoomInternal.Disactivate();
-            base.Dispose(disposing);
+
+            foreach (var room in _rooms.Values)
+                room.Disactivate();
         }
     }
 }

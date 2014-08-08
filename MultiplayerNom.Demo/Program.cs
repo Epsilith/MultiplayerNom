@@ -9,7 +9,8 @@ namespace MultiplayerNom.Demo
         private static void Main()
         {
             // Start a server
-            var server = new MultiplayerServer<Lobby<ServerRoom>>(12345);
+            var server = new Server(12345);
+            var mutliplayerServer = new MultiplayerServer<Lobby<ServerRoom>>(server);
             server.Start();
 
             // Start a client

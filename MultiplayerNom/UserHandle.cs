@@ -7,7 +7,7 @@ namespace MultiplayerNom
     {
         private IRoomInternal _room;
 
-        public UserHandle(TcpConnection connection, IRoomInternal room, int userId)
+        public UserHandle(Connection connection, IRoomInternal room, int userId)
         {
             this.UserId = userId;
             this.Connection = connection;
@@ -27,7 +27,7 @@ namespace MultiplayerNom
             };
         }
 
-        public TcpConnection Connection { get; private set; }
+        public Connection Connection { get; private set; }
         public int UserId { get; private set; }
 
         public bool MoveToRoom(IRoomInternal newRoom)
