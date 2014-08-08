@@ -19,12 +19,6 @@
                 Represents the abstract base class for all ByteNom connections.
             </summary>
         </member>
-        <member name="M:ByteNom.Connection.SetStream(System.IO.Stream)">
-            <summary>
-                Sets the internal stream for this connection.
-            </summary>
-            <param name="stream">The stream.</param>
-        </member>
         <member name="M:ByteNom.Connection.Start">
             <summary>
                 Starts listening for messages.
@@ -73,6 +67,22 @@
                 unmanaged resources.
             </param>
         </member>
+        <member name="P:ByteNom.Connection.Connected">
+            <summary>
+                Gets a value indicating whether this <see cref="T:ByteNom.Connection"/> is connected.
+            </summary>
+            <value>
+                <c>true</c> if connected; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:ByteNom.Connection.EndPoint">
+            <summary>
+                Gets the remote end point.
+            </summary>
+            <value>
+                The remote end point.
+            </value>
+        </member>
         <member name="P:ByteNom.Connection.Stream">
             <summary>
                 Gets the network stream.
@@ -118,6 +128,14 @@
                 The remote end point.
             </value>
         </member>
+        <member name="P:ByteNom.TcpConnection.Stream">
+            <summary>
+                Gets the stream.
+            </summary>
+            <value>
+                The stream.
+            </value>
+        </member>
         <member name="P:ByteNom.TcpConnection.Client">
             <summary>
                 Gets the tcp client.
@@ -144,6 +162,23 @@
             </summary>
             <param name="sender">The sender.</param>
             <param name="connection">The connection.</param>
+        </member>
+        <member name="T:ByteNom.TcpConnectionEventHandler">
+            <summary>
+                Provvides data for the <see cref="E:ByteNom.Server.ConnectionReceived"/> event.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="connection">The connection.</param>
+        </member>
+        <member name="T:ByteNom.IServer">
+            <summary>
+            Represents a server.
+            </summary>
+        </member>
+        <member name="E:ByteNom.IServer.ConnectionReceived">
+            <summary>
+                Occurs when a new connection is received.
+            </summary>
         </member>
         <member name="T:ByteNom.MessageEventHandler">
             <summary>

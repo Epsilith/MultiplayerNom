@@ -47,8 +47,8 @@
     <Compile Include="ILobbyBase.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IRoomInternal.cs" />
-    <Compile Include="IServer.cs" />
-    <Compile Include="IServerInternal.cs" />
+    <Compile Include="IMultiplayerServer.cs" />
+    <Compile Include="IMultiplayerServerInternal.cs" />
     <Compile Include="Lobby.cs" />
     <Compile Include="LobbyBase.cs" />
     <Compile Include="Room.cs" />

@@ -10,7 +10,7 @@ namespace MultiplayerNom
     ///     Represents a multiplayer server that hosts multiple rooms and a lobby.
     /// </summary>
     /// <typeparam name="TLobby">The type of the lobby.</typeparam>
-    public class MultiplayerServer<TLobby> : Server, IServerInternal where TLobby : class, ILobbyBase, new()
+    public class MultiplayerServer<TLobby> : Server, IMultiplayerServerInternal where TLobby : class, ILobbyBase, new()
     {
         private const string LobbyRoomName = "Lobby";
         private readonly Dictionary<string, IRoomInternal> _rooms = new Dictionary<string, IRoomInternal>();
@@ -49,7 +49,7 @@ namespace MultiplayerNom
             get { return this.Get<TLobby>(LobbyRoomName); }
         }
         
-        ILobbyBase IServer.Lobby
+        ILobbyBase IMultiplayerServer.Lobby
         {
             get { return this.Lobby; }
         }
@@ -90,7 +90,7 @@ namespace MultiplayerNom
             return this._rooms.ContainsKey(roomId);
         }
 
-        bool IServerInternal.Remove(string roomId)
+        bool IMultiplayerServerInternal.Remove(string roomId)
         {
             if (roomId == LobbyRoomName)
                 throw new InvalidOperationException("The lobby room may not be closed!");

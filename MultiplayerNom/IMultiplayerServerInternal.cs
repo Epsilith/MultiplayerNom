@@ -1,6 +1,6 @@
 ﻿namespace MultiplayerNom
 {
-    internal interface IServerInternal : IServer
+    internal interface IMultiplayerServerInternal : IMultiplayerServer
     {
         bool Remove(string roomId);
     }

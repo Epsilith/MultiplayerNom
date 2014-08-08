@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents a multiplayer server.
     /// </summary>
-    public interface IServer
+    public interface IMultiplayerServer
     {
         /// <summary>
         ///     Gets the lobby room.

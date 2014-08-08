@@ -11,7 +11,7 @@ namespace MultiplayerNom
     public abstract class Room<TUser> : IRoomInternal where TUser : User, new()
     {
         private readonly Dictionary<UserHandle, TUser> _users = new Dictionary<UserHandle, TUser>();
-        private IServerInternal _server;
+        private IMultiplayerServerInternal _multiplayerServer;
 
         /// <summary>
         ///     Gets a value indicating whether this <see cref="Room{TUser}" /> is closed.
@@ -38,9 +38,9 @@ namespace MultiplayerNom
         /// <value>
         ///     The server.
         /// </value>
-        public IServer Server
+        public IMultiplayerServer Server
         {
-            get { return this._server; }
+            get { return this._multiplayerServer; }
         }
 
         /// <summary>
@@ -62,9 +62,9 @@ namespace MultiplayerNom
             get { return this._users.Count; }
         }
 
-        void IRoomInternal.Activate(IServerInternal server, string roomId)
+        void IRoomInternal.Activate(IMultiplayerServerInternal multiplayerServer, string roomId)
         {
-            this._server = server;
+            this._multiplayerServer = multiplayerServer;
             this.RoomId = roomId;
             this.OnCreate();
         }
@@ -77,7 +77,7 @@ namespace MultiplayerNom
             {
                 user.Disconnect();
             }
-            this._server.Remove(this.RoomId);
+            this._multiplayerServer.Remove(this.RoomId);
             this.OnDestroy();
         }
 
