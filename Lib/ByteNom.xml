@@ -347,7 +347,7 @@
                 Stops listening to new connections.
             </summary>
         </member>
-        <member name="M:ByteNom.Server.OnConnectionReceived(ByteNom.Connection)">
+        <member name="M:ByteNom.Server.OnConnectionReceived(ByteNom.TcpConnection)">
             <summary>
                 Called when a new connection is received.
             </summary>
