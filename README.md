@@ -67,7 +67,8 @@ By providing your own `MyUser` class, you are now capable of using all of its va
 ## Connections
 To start the server, use the following code:  
 ```csharp
-var server = new MultiplayerServer<Lobby<MyRoom>>(port);
+var server = new Server(port);
+var mutliplayerServer = new MultiplayerServer<Lobby<ServerRoom>>(server);
 server.Start();
 ```
 And to connect to a MultiplayerNom server, use this in your client:  
