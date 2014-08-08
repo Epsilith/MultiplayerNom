@@ -111,7 +111,7 @@ namespace MultiplayerNom
         }
 
         /// <summary>
-        ///     Gets the room with the specified room identifier.
+        ///     Tries to get the room with the specified room identifier.
         /// </summary>
         /// <typeparam name="T">The type of the room.</typeparam>
         /// <param name="roomId">The room identifier.</param>

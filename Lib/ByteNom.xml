@@ -9,16 +9,21 @@
                 Provides a client connection to a ByteNom server.
             </summary>
         </member>
+        <member name="T:ByteNom.TcpConnection">
+            <summary>
+            Represents a TcpConnection.
+            </summary>
+        </member>
         <member name="T:ByteNom.Connection">
             <summary>
                 Represents the abstract base class for all ByteNom connections.
             </summary>
         </member>
-        <member name="M:ByteNom.Connection.SetClient(System.Net.Sockets.TcpClient)">
+        <member name="M:ByteNom.Connection.SetStream(System.IO.Stream)">
             <summary>
-                Sets the internal tcp client for this connection.
+                Sets the internal stream for this connection.
             </summary>
-            <param name="client">The client.</param>
+            <param name="stream">The stream.</param>
         </member>
         <member name="M:ByteNom.Connection.Start">
             <summary>
@@ -68,30 +73,6 @@
                 unmanaged resources.
             </param>
         </member>
-        <member name="P:ByteNom.Connection.Connected">
-            <summary>
-                Gets a value indicating whether this <see cref="T:ByteNom.Connection"/> is connected.
-            </summary>
-            <value>
-                <c>true</c> if connected; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:ByteNom.Connection.EndPoint">
-            <summary>
-                Gets the remote end point.
-            </summary>
-            <value>
-                The remote end point.
-            </value>
-        </member>
-        <member name="P:ByteNom.Connection.Client">
-            <summary>
-                Gets the tcp client.
-            </summary>
-            <value>
-                The tcp client.
-            </value>
-        </member>
         <member name="P:ByteNom.Connection.Stream">
             <summary>
                 Gets the network stream.
@@ -109,6 +90,41 @@
             <summary>
                 Occurs when the connection is lost.
             </summary>
+        </member>
+        <member name="M:ByteNom.TcpConnection.SetClient(System.Net.Sockets.TcpClient)">
+            <summary>
+                Sets the internal tcp client for this connection.
+            </summary>
+            <param name="client">The client.</param>
+        </member>
+        <member name="M:ByteNom.TcpConnection.Disconnect">
+            <summary>
+            Disconnects from the server.
+            </summary>
+        </member>
+        <member name="P:ByteNom.TcpConnection.Connected">
+            <summary>
+                Gets a value indicating whether this <see cref="T:ByteNom.Connection"/> is connected.
+            </summary>
+            <value>
+                <c>true</c> if connected; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:ByteNom.TcpConnection.EndPoint">
+            <summary>
+                Gets the remote end point.
+            </summary>
+            <value>
+                The remote end point.
+            </value>
+        </member>
+        <member name="P:ByteNom.TcpConnection.Client">
+            <summary>
+                Gets the tcp client.
+            </summary>
+            <value>
+                The tcp client.
+            </value>
         </member>
         <member name="M:ByteNom.Client.#ctor(System.String,System.Int32)">
             <summary>
@@ -353,6 +369,11 @@
             <value>
                 <c>true</c> if connected; otherwise, <c>false</c>.
             </value>
+        </member>
+        <member name="P:ByteNom.Server.Endpoint">
+            <summary>
+            Gets the local endpoint for this server.
+            </summary>
         </member>
         <member name="E:ByteNom.Server.ConnectionReceived">
             <summary>

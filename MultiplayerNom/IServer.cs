@@ -38,7 +38,7 @@
         T Get<T>(string roomId) where T : class, IRoom;
 
         /// <summary>
-        ///     Trys to get the room with the specified room identifier. Returns null if the room was not found.
+        ///     Tries to get the room with the specified room identifier. Returns null if the room was not found.
         /// </summary>
         /// <typeparam name="T">The type of the room.</typeparam>
         /// <param name="roomId">The room identifier.</param>
